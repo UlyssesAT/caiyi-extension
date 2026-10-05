@@ -1,0 +1,466 @@
+:root {
+  --cy-glass-bg: rgba(248, 250, 252, 0.94);
+  --cy-glass-border: rgba(15, 23, 42, 0.16);
+  --cy-glass-inner-border: rgba(255, 255, 255, 0.9);
+  --cy-glass-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.14),
+                     0 0 0 1px var(--cy-glass-inner-border) inset;
+  --cy-blur: blur(24px) saturate(180%);
+  --cy-text-primary: #0f172a;
+  --cy-text-secondary: #64748b;
+  --cy-accent: #2563eb;
+  --cy-radius-pill: 9999px;
+  --cy-radius-card: 12px;
+}
+
+/* 启动胶囊：支持自由拖拽与位置记忆 */
+#cy-launcher {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483640;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 8px;
+  padding: 0;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  user-select: none;
+  opacity: 0.5;
+  transition: 
+    width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+#cy-launcher:active {
+  cursor: grabbing;
+}
+
+#cy-launcher::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -16px;
+  right: -16px;
+}
+
+#cy-launcher span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cy-text-primary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#cy-launcher:hover,
+#cy-launcher.cy-dragging {
+  width: auto;
+  height: 30px;
+  padding: 0 16px;
+  background: var(--cy-glass-bg);
+  border-color: var(--cy-glass-border);
+  box-shadow: var(--cy-glass-shadow);
+  opacity: 1 !important;
+}
+
+#cy-launcher:hover span,
+#cy-launcher.cy-dragging span {
+  opacity: 1;
+}
+
+#cy-launcher.cy-hidden {
+  display: none !important;
+}
+
+/* 悬浮主工具栏 */
+#cy-toolbar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483640;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: var(--cy-glass-bg);
+  backdrop-filter: var(--cy-blur);
+  -webkit-backdrop-filter: var(--cy-blur);
+  border: 1px solid var(--cy-glass-border);
+  border-radius: var(--cy-radius-pill);
+  box-shadow: var(--cy-glass-shadow);
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: opacity 0.2s ease;
+}
+
+#cy-toolbar.cy-hidden {
+  display: none !important;
+}
+
+.cy-drag-handle {
+  cursor: grab;
+  color: var(--cy-text-secondary);
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.cy-drag-handle:active {
+  cursor: grabbing;
+}
+
+.cy-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--cy-radius-pill);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cy-text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.cy-btn:hover {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.cy-btn.cy-active {
+  background: var(--cy-text-primary);
+  color: #ffffff;
+}
+
+/* 向上弹出浮层 */
+.cy-popover {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cy-glass-bg);
+  backdrop-filter: var(--cy-blur);
+  -webkit-backdrop-filter: var(--cy-blur);
+  border: 1px solid var(--cy-glass-border);
+  border-radius: 12px;
+  padding: 6px 10px;
+  display: none;
+  gap: 8px;
+  box-shadow: var(--cy-glass-shadow);
+}
+
+#cy-export-popover {
+  flex-direction: column;
+  min-width: 190px;
+  padding: 6px;
+  gap: 2px;
+}
+
+.cy-dropdown-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cy-text-primary);
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.cy-dropdown-btn:hover {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.cy-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s;
+}
+
+.cy-color-dot:hover {
+  transform: scale(1.15);
+}
+
+.cy-color-dot.active {
+  border-color: #0f172a;
+}
+
+.cy-symbol-item {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1.5px solid #000000;
+  background: #ffffff;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.cy-symbol-item:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* 网页原文标点节点 */
+.cy-pin-node {
+  position: absolute;
+  z-index: 2147483625;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 3px;
+  border-radius: 4px;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  box-sizing: border-box;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cy-pin-node:hover {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.cy-highlight-node {
+  border-radius: 3px !important;
+  padding: 1px 0 !important;
+  cursor: pointer !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+  transition: filter 0.2s ease !important;
+}
+
+.cy-highlight-node:hover {
+  filter: brightness(0.92) !important;
+}
+
+.cy-crop-pinned-box {
+  position: absolute;
+  border: 2px dashed var(--cy-accent);
+  background: rgba(37, 99, 235, 0.06);
+  border-radius: 6px;
+  z-index: 2147483620;
+  pointer-events: auto;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.2s;
+}
+
+.cy-crop-pinned-box:hover {
+  background: rgba(37, 99, 235, 0.14);
+}
+
+#cy-crop-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  cursor: crosshair;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+#cy-crop-box {
+  position: absolute;
+  border: 2px solid var(--cy-accent);
+  background: rgba(37, 99, 235, 0.15);
+  pointer-events: none;
+}
+
+/* 批注容器：视口固定定位，独立于任何内外层滚动条 */
+#cy-annotations-layer {
+  position: fixed !important;
+  top: 0 !important;
+  right: 16px !important;
+  bottom: 0 !important;
+  width: 250px !important;
+  pointer-events: none !important;
+  z-index: 2147483630 !important;
+  overflow: visible !important;
+}
+
+/* 批注卡片：fixed 定位，直接与被批注文字同视口高度对齐 */
+.cy-card {
+  position: fixed !important;
+  right: 16px !important;
+  width: 250px !important;
+  pointer-events: auto !important;
+  background: var(--cy-glass-bg);
+  backdrop-filter: var(--cy-blur);
+  -webkit-backdrop-filter: var(--cy-blur);
+  border: 1px solid var(--cy-glass-border);
+  border-radius: var(--cy-radius-card);
+  box-shadow: var(--cy-glass-shadow);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+  opacity: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: box-shadow 0.2s, opacity 0.2s ease;
+  will-change: top, opacity;
+}
+
+.cy-card.cy-card-collapsed {
+  padding: 6px 10px;
+  gap: 0;
+}
+
+.cy-card.cy-card-collapsed .cy-card-body,
+.cy-card.cy-card-collapsed .cy-card-img-wrap,
+.cy-card.cy-card-collapsed .cy-card-textarea {
+  display: none !important;
+}
+
+.cy-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cy-text-secondary);
+}
+
+.cy-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cy-card-btn {
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: var(--cy-text-secondary);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.cy-card-btn:hover {
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--cy-text-primary);
+}
+
+.cy-card-body {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--cy-text-primary);
+  border-left: 2.5px solid var(--cy-accent);
+  padding-left: 6px;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.cy-card-img-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cy-card-img-thumb {
+  width: 100%;
+  max-height: 140px;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  display: block;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.cy-btn-img-save {
+  align-self: flex-end;
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cy-text-primary);
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.cy-btn-img-save:hover {
+  background: var(--cy-text-primary);
+  color: #ffffff;
+}
+
+.cy-card-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 38px;
+  outline: none;
+  color: var(--cy-text-primary);
+}
+
+.cy-card-textarea:focus {
+  background: #ffffff;
+  border-color: var(--cy-accent);
+}
+
+#cy-progress-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cy-glass-bg);
+  backdrop-filter: var(--cy-blur);
+  -webkit-backdrop-filter: var(--cy-blur);
+  border: 1px solid var(--cy-glass-border);
+  border-radius: var(--cy-radius-pill);
+  box-shadow: var(--cy-glass-shadow);
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cy-text-primary);
+  z-index: 2147483647;
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
