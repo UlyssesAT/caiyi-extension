@@ -54,6 +54,11 @@
 - **Markdown**：导出 `.md`
 - **Word**：导出 Word 兼容 HTML 文档
 
+<img width="1622" height="359" alt="1 隐藏状态" src="https://github.com/user-attachments/assets/4a803100-5b61-43fb-98f8-491fef821a26" />
+<img width="1622" height="358" alt="2 胶囊状态" src="https://github.com/user-attachments/assets/f68c9e96-3053-4437-b260-aed635832c4f" />
+<img width="1622" height="350" alt="3 工具栏状态" src="https://github.com/user-attachments/assets/4fe6b887-e551-43d7-ae07-c2da8e3b1dfb" />
+<img width="1622" height="1037" alt="4 批注状态" src="https://github.com/user-attachments/assets/17d3ba6e-95a7-4c0e-93b2-b9640737896c" />
+
 ---
 
 ## 交互设计
